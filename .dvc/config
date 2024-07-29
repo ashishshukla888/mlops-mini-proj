@@ -1,4 +1,4 @@
 [core]
     remote = myremote
 ['remote "myremote"']
-    url = C:\Users\91734\AppData\Local\Temp
+    url = s3://madhuri4994-bucket
