@@ -9,9 +9,30 @@ import logging
 import mlflow
 import mlflow.sklearn
 import dagshub
+import os
 
-mlflow.set_tracking_uri('https://dagshub.com/ashishshukla888/mlops-mini-proj.mlflow')
-dagshub.init(repo_owner='ashishshukla888', repo_name='mlops-mini-proj', mlflow=True)
+
+# note: here previously we were doing browser based authentication which fails in CI workflow now need key based auth
+# mlflow.set_tracking_uri('https://dagshub.com/ashishshukla888/mlops-mini-proj.mlflow')
+# dagshub.init(repo_owner='ashishshukla888', repo_name='mlops-mini-proj', mlflow=True)
+
+
+# Key based authentication 
+
+# Set up DagsHub credentials for MLflow tracking
+dagshub_token = os.getenv("DAGSHUB_PAT")
+if not dagshub_token:
+    raise EnvironmentError("DAGSHUB_PAT environment variable is not set")
+
+os.environ["MLFLOW_TRACKING_USERNAME"] = dagshub_token
+os.environ["MLFLOW_TRACKING_PASSWORD"] = dagshub_token
+
+dagshub_url = "https://dagshub.com"
+repo_owner = "ashishshukla888"
+repo_name = "mlops-mini-proj"
+
+
+
 
 # logging configuration
 logger = logging.getLogger('model_evaluation')
