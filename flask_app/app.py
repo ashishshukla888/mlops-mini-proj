@@ -5,9 +5,23 @@ from preprocessing_utility import normalize_text
 import dagshub
 import pickle
 
-mlflow.set_tracking_uri('https://dagshub.com/ashishshukla888/mlops-mini-proj.mlflow')
-dagshub.init(repo_owner='ashishshukla888', repo_name='mlops-mini-proj', mlflow=True)
+# from browser to secret auth
+# mlflow.set_tracking_uri('https://dagshub.com/ashishshukla888/mlops-mini-proj.mlflow')
+# dagshub.init(repo_owner='ashishshukla888', repo_name='mlops-mini-proj', mlflow=True)
 
+dagshub_token = os.getenv("DAGSHUB_PAT")
+if not dagshub_token:
+    raise EnvironmentError("DAGSHUB_PAT environment variable is not set")
+
+os.environ["MLFLOW_TRACKING_USERNAME"] = dagshub_token
+os.environ["MLFLOW_TRACKING_PASSWORD"] = dagshub_token
+
+dagshub_url = "https://dagshub.com"
+repo_owner = "ashishshukla888"
+repo_name = "mlops-mini-proj"
+
+# Set up MLflow tracking URI
+mlflow.set_tracking_uri(f'{dagshub_url}/{repo_owner}/{repo_name}.mlflow')
 
 app = Flask(__name__)
 
