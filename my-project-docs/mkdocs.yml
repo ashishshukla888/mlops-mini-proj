@@ -1,0 +1,5 @@
+site_name: My Project Documentation abt sentiments
+nav:
+  - Home: index.md
+  - About: about.md
+  - Usage: usage.md
