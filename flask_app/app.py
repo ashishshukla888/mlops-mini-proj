@@ -1,9 +1,10 @@
 from mlflow.tracking import MlflowClient
-from flask import Flask, render_template,request
+from flask import Flask, render_template ,request
 import mlflow
 from preprocessing_utility import normalize_text
 import dagshub
 import pickle
+import os 
 
 # from browser to secret auth
 # mlflow.set_tracking_uri('https://dagshub.com/ashishshukla888/mlops-mini-proj.mlflow')
@@ -64,7 +65,7 @@ def predict():
     # show
     return render_template('index.html', result= result[0])
 
-app.run(debug=True)
+app.run(debug=True,host="0.0.0.0")
 
 
 
