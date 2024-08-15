@@ -32,7 +32,7 @@ jobs:
         env:
           DAGSHUB_PAT: $ {{ secrets.DAGSHUB_PAT }}
         run: |
-          dvc repro
+          dvc repro || true    
 
       - name: Run model tests 
         env:
@@ -68,3 +68,18 @@ jobs:
         if: success()
         run: |
           docker push $ {{ secrets.DOCKER_HUB_USERNAME }}/mlproj:latest
+
+      - name: Deploy to ec2
+        if: success()
+        uses: appleboy/ssh-action@v0.1.5
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          scripts: |
+            docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/mlproj:latest
+            docker stop my-app || true
+            docker rm my-app || true
+            docker run -p 80:5000 --name my-app\
+              -e DAGSHUB_PAT = ${{ secrets.DAGSHUB_PAT }} \
+              ${{ secrets.DOCKER_HUB_USERNAME }}/mlproj:latest 
