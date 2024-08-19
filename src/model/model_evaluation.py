@@ -35,6 +35,25 @@ repo_name = "mlops-mini-proj"
 mlflow.set_tracking_uri(f'{dagshub_url}/{repo_owner}/{repo_name}.mlflow')
 
 
+
+# the one with the values for debugging 
+# # Ensure DAGSHUB_PAT is set
+# dagshub_token = os.getenv("DAGSHUB_PAT")
+# if not dagshub_token:
+#     raise EnvironmentError("DAGSHUB_PAT environment variable is not set")
+
+# # Set MLflow tracking credentials
+# os.environ["MLFLOW_TRACKING_USERNAME"] = dagshub_token
+# os.environ["MLFLOW_TRACKING_PASSWORD"] = dagshub_token
+
+# # Set MLflow tracking URI
+# dagshub_url = "https://dagshub.com"
+# repo_owner = "ashishshukla888"
+# repo_name = "mlops-mini-proj"
+# mlflow.set_tracking_uri(f'{dagshub_url}/{repo_owner}/{repo_name}.mlflow')
+
+
+
 # logging configuration
 logger = logging.getLogger('model_evaluation')
 logger.setLevel('DEBUG')
